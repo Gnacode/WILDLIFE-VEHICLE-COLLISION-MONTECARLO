@@ -1094,11 +1094,27 @@ python wvc_simulator.py --sweep detection_rate --trials 15 --hours 2 # sensitivi
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive data page for the WVC sensor-network paper.">
+    <meta name="description" content="Interactive supplementary data page for {html.escape(paper_title)}. Headline three-mode Monte Carlo comparison, three sensitivity sweeps (radar spacing, animal size, sensor sensitivity), full reproducibility pipeline.">
+    <meta name="author" content="{html.escape(authors)}">
+    <meta name="keywords" content="wildlife-vehicle collisions, animal detection systems, radar, magnetometer, LoRa, Monte Carlo simulation, road ecology, sustainable transportation">
+
+    <link rel="canonical" href="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="GNACODE - WVC Sensor Network Data Page">
+    <meta property="og:title" content="{html.escape(paper_title)}">
+    <meta property="og:description" content="Interactive supplementary data page. Headline 57.0% collision reduction (p < 0.0001) across 60 Monte Carlo trials, plus three sensitivity sweeps. {html.escape(authors)} ({_dt.datetime.now().year}), submitted to {html.escape(journal)}.">
+    <meta property="og:url" content="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
+    <meta property="og:locale" content="en_CA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{html.escape(paper_title)}">
+    <meta name="twitter:description" content="Combined radar–magnetometer sensor network for wildlife–vehicle collision prevention. 57.0% reduction across 60 Monte Carlo trials. Interactive data + open code.">
+
     <title>{html.escape(paper_title)} — Data Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     {plotly_script_tag}
     <style>{INDEX_CSS}</style>
 </head>
@@ -1177,7 +1193,7 @@ def main():
     parser.add_argument("--output", "-o", type=Path, default=Path("./docs"),
                         help="Output directory for the data page (default: ./docs)")
     parser.add_argument("--paper-title", type=str,
-                        default="Multimodal Radar–Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention",
+                        default="Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis",
                         help="Paper title shown in the page header")
     parser.add_argument("--authors", type=str,
                         default="Lars Thomsen, Sergii Makovetskyi",

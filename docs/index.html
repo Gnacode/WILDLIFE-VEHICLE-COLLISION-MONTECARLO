@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive data page for the WVC sensor-network paper.">
+    <meta name="description" content="Interactive supplementary data page for Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis. Headline three-mode Monte Carlo comparison, three sensitivity sweeps (radar spacing, animal size, sensor sensitivity), full reproducibility pipeline.">
+    <meta name="author" content="Lars Thomsen, Sergii Makovetskyi">
+    <meta name="keywords" content="wildlife-vehicle collisions, animal detection systems, radar, magnetometer, LoRa, Monte Carlo simulation, road ecology, sustainable transportation">
+
+    <link rel="canonical" href="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="GNACODE - WVC Sensor Network Data Page">
+    <meta property="og:title" content="Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis">
+    <meta property="og:description" content="Interactive supplementary data page. Headline 57.0% collision reduction (p < 0.0001) across 60 Monte Carlo trials, plus three sensitivity sweeps. Lars Thomsen, Sergii Makovetskyi (2026), submitted to MDPI Sustainability.">
+    <meta property="og:url" content="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
+    <meta property="og:locale" content="en_CA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis">
+    <meta name="twitter:description" content="Combined radar–magnetometer sensor network for wildlife–vehicle collision prevention. 57.0% reduction across 60 Monte Carlo trials. Interactive data + open code.">
+
     <title>Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis — Data Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-3.5.0.min.js" charset="utf-8"></script>
     <style>
 :root {
@@ -373,7 +389,7 @@ a:hover { background: var(--accent-soft); }
 
   <div class="content">
     <h3>Source CSVs</h3>
-    <ul><li><code>wvc_results_backup2.csv</code> — headline three-mode dataset</li>
+    <ul><li><code>wvc_results.csv</code> — headline three-mode dataset</li>
 <li><code>sweep_sweep_spacing.csv</code> — sweep over <code>radar_spacing</code></li>
 <li><code>sweep_size.cs</code> — sweep over <code>size_scale</code></li>
 <li><code>sweep_detection_sweep_detection_rate.csv</code> — sweep over <code>detection_rate_per_sec</code></li></ul>
