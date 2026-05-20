@@ -1,4 +1,4 @@
-# Wildlife–Vehicle Collision Sensor Network — Code & Data
+# Wildlife-Vehicle Collision Sensor Network:Code & Data
 
 [![Interactive data page](https://img.shields.io/badge/Interactive-Data%20Page-2563eb?style=flat-square)](https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
