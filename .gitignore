@@ -1,0 +1,37 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Excel lock files
+~$*.xlsx
+~$*.docx
+
+# Local backups — not for GitHub (archived to Zenodo if needed)
+backups/
+
+# Bulk simulation snapshots — Zenodo only
+data/snapshots/
+
+# Large NumPy result files — Zenodo only
+*.npz
