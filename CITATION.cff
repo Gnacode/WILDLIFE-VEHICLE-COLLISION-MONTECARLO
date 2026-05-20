@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite the paper."
+type: software
+title: "Wildlife–Vehicle Collision Monte Carlo Simulator"
+authors:
+  - family-names: Thomsen
+    given-names: Lars
+    affiliation: "GNACODE Inc., Medicine Hat, AB, Canada"
+    orcid: "https://orcid.org/0000-0002-1557-5646"   # if you have one
+  - family-names: Makovetskyi
+    given-names: Sergii
+    affiliation: "Kharkiv National University of Radio Electronics, Ukraine"
+license: MIT
+repository-code: "https://github.com/gnacode/WILDLIFE-VEHICLE-COLLISION-MONTECARLO"
+preferred-citation:
+  type: article
+  title: "Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis"
+  authors:
+    - family-names: Thomsen
+      given-names: Lars
+    - family-names: Makovetskyi
+      given-names: Sergii
+  journal: "Sustainability"
+  year: 2026
+  publisher: "MDPI"
