@@ -114,17 +114,27 @@ class Config:
     random_walk_std: float = 0.3        # m/s noise on movement
     verge_threshold: float = 3.0        # m from center where hesitation starts
 
-    # --- Behavioral decision probabilities ---
-    # At HESITATING decision point with vehicle close:
-    p_freeze_if_vehicle: float = 0.10   # rare freeze at road edge
-    p_flee_if_vehicle: float = 0.20     # cautious retreat
-    # else 70% brave-cross
-    # When no vehicle close at HESITATING:
-    p_cross_if_clear: float = 0.80
-    # else 20% flee
-    # Freeze during CROSSING when vehicle suddenly approaches:
+    # --- Behavioural decision probabilities (Fix A formulation) ---
+    # HESITATING decision uses a two-branch structure:
+    #
+    # Clear branch (vehicle absent or below salience threshold):
+    #   p(CROSS) = p_cross_if_clear, p(FLEE) = 1 - p_cross_if_clear, p(FROZEN) = 0
+    #
+    # Threat branch (boolean gate fires: vehicle within close-dist AND threat > 0.3):
+    #   p(FROZEN) = p_freeze_max * theta                       (0.10 * theta)
+    #   p(FLEE)   = p_flee_threat_base + p_flee_threat_gain * theta   (0.30 + 0.20*theta)
+    #   p(CROSS)  = residual = 1 - p(FROZEN) - p(FLEE)        (0.70 - 0.30*theta)
+    #
+    # At theta=0.3 (caution-speed gate threshold): (FROZEN, FLEE, CROSS) = (0.03, 0.36, 0.61)
+    # At theta=1.0 (cruise-speed maximum):         (FROZEN, FLEE, CROSS) = (0.10, 0.50, 0.40)
+    # Threat presence increases both freeze and flee at the expense of crossing.
+    p_cross_if_clear: float = 0.80      # clear-branch crossing probability
+    p_freeze_max: float = 0.10          # max freeze probability at full threat (theta=1)
+    p_flee_threat_base: float = 0.30    # threat-branch baseline flee rate (gate-triggered)
+    p_flee_threat_gain: float = 0.20    # additional flee scaling with threat factor
+    # Mid-crossing freeze (when vehicle very close + fast during traversal):
     p_freeze_during_cross_base: float = 0.15
-    vehicle_close_dist: float = 80.0    # m, "close" threshold
+    vehicle_close_dist: float = 80.0    # m, threat-branch gate distance
     vehicle_visibility: float = 150.0   # m, animal can see vehicle within this
 
     # --- Sensor topology ---
@@ -378,16 +388,40 @@ class WVCSimulation:
 
         elif a.state == AnimalState.HESITATING:
             if elapsed > a.dwell_target:
-                # Decision time
+                # Decision time — Fix A formulation:
+                # The boolean gate `vehicle_threatens` represents a categorical
+                # perceptual transition from "no salient threat" to "threat present".
+                # Inside the threat branch, freeze and flee probabilities INCREASE
+                # with the threat factor theta, and crossing probability DECREASES,
+                # matching the biological expectation that perceived threat suppresses
+                # cross-attempts in favor of flight or freeze.
+                #
+                # Clear branch (vehicle absent or below salience threshold):
+                #   p(CROSS) = 0.80, p(FLEE) = 0.20, p(FROZEN) = 0
+                # Threat branch (boolean gate fires, theta >= 0.3):
+                #   p(FROZEN) = p_freeze_max * theta            (0.10*theta)
+                #   p(FLEE)   = p_flee_threat_base + p_flee_threat_gain * theta
+                #                                                (0.30 + 0.20*theta)
+                #   p(CROSS)  = p_cross_threat_base - p_cross_threat_loss * theta
+                #                                                (0.70 - 0.30*theta)
+                #
+                # At theta=1 (cruise):  (0.10, 0.50, 0.40) — threat suppresses crossing
+                # At theta=0.3 (gate threshold): (0.03, 0.36, 0.61) — moderate suppression
                 if vehicle_threatens:
+                    p_frozen = c.p_freeze_max * threat
+                    p_fleeing = c.p_flee_threat_base + c.p_flee_threat_gain * threat
+                    # p_crossing is the residual; verify non-negative across theta:
+                    # min at theta=1: 1 - 0.10 - (0.30+0.20) = 0.40 ✓
+                    # max at theta=0.3: 1 - 0.03 - 0.36 = 0.61 ✓
                     r = self.rng.random()
-                    if r < c.p_freeze_if_vehicle * threat:
+                    if r < p_frozen:
                         self._set_state(a, AnimalState.FROZEN)
-                    elif r < (c.p_freeze_if_vehicle + c.p_flee_if_vehicle) * threat:
+                    elif r < p_frozen + p_fleeing:
                         self._set_state(a, AnimalState.FLEEING)
                     else:
                         self._set_state(a, AnimalState.CROSSING)
                 else:
+                    # Clear branch — vehicle absent or below salience threshold
                     if self.rng.random() < c.p_cross_if_clear:
                         self._set_state(a, AnimalState.CROSSING)
                     else:
