@@ -42,9 +42,15 @@ from scipy import stats as sp_stats
 # ============================================================
 
 MODE_COLORS = {
-    "control":   "#dc2626",   # warm red
-    "detection": "#ea580c",   # amber
-    "aware":     "#15803d",   # forest green
+    "control":   "#5F5E5A",   # neutral gray (consistent with print figures)
+    "detection": "#0F6E56",   # teal-green
+    "aware":     "#BA7517",   # warm amber
+}
+# Lighter fill colours for shaded uncertainty bands (~18% alpha equivalents)
+MODE_FILL_RGBA = {
+    "control":   "rgba(95,94,90,0.18)",
+    "detection": "rgba(15,110,86,0.18)",
+    "aware":     "rgba(186,117,23,0.18)",
 }
 MODE_LABELS = {
     "control":   "Control",
@@ -178,7 +184,14 @@ def find_headline_csv(input_dir: Path) -> Optional[HeadlineData]:
 def discover_sweeps(input_dir: Path) -> List[SweepData]:
     """Auto-discover sweep CSVs in the input directory, returning one record per sweep parameter."""
     found: Dict[str, SweepData] = {}
+    # Accept either *sweep*.csv (legacy) or wvc_results_*.csv (current regenerate_all_data.py convention),
+    # excluding the headline file wvc_results.csv itself.
     candidates = list(input_dir.glob("*sweep*.cs*")) + list(input_dir.glob("*sweep*.CSV"))
+    for path in input_dir.glob("wvc_results_*.cs*"):
+        # Skip the headline CSV (wvc_results.csv has no trailing _<param>)
+        if path.name in {"wvc_results.csv", "wvc_results.CSV"}:
+            continue
+        candidates.append(path)
     for path in candidates:
         try:
             with open(path, encoding="utf-8-sig") as fh:
@@ -453,22 +466,41 @@ def fig_sweep_overview(sweep: SweepData) -> go.Figure:
         horizontal_spacing=0.13, vertical_spacing=0.20,
     )
 
-    # ---- Panel 1: collision rate per mode with error bars ----
+    # ---- Panel 1: collision rate per mode with shaded ±1 SEM bands ----
     for m in modes:
-        means, stds = [], []
+        means, sems = [], []
         for v in values:
             sub = df[(df["mode"] == m) & (df[sweep.sweep_param] == v)]
-            means.append(float(sub["col_rate"].mean()) * 100 if not sub.empty else None)
-            stds.append(float(sub["col_rate"].std(ddof=1)) * 100 if len(sub) > 1 else 0.0)
+            if not sub.empty and len(sub) > 1:
+                means.append(float(sub["col_rate"].mean()) * 100)
+                sems.append(float(sub["col_rate"].std(ddof=1)) * 100 / np.sqrt(len(sub)))
+            else:
+                means.append(float(sub["col_rate"].mean()) * 100 if not sub.empty else None)
+                sems.append(0.0)
+        upper = [m_ + s_ for m_, s_ in zip(means, sems)]
+        lower = [m_ - s_ for m_, s_ in zip(means, sems)]
+        # Upper bound (invisible)
+        fig.add_trace(go.Scatter(
+            x=values, y=upper, mode="lines",
+            line=dict(width=0, color=MODE_COLORS[m]),
+            showlegend=False, hoverinfo="skip", legendgroup=m,
+        ), row=1, col=1)
+        # Lower bound with fill to upper
+        fig.add_trace(go.Scatter(
+            x=values, y=lower, mode="lines",
+            line=dict(width=0, color=MODE_COLORS[m]),
+            fill="tonexty", fillcolor=MODE_FILL_RGBA[m],
+            showlegend=False, hoverinfo="skip", legendgroup=m,
+        ), row=1, col=1)
+        # Mean line on top
         fig.add_trace(go.Scatter(
             x=values, y=means,
-            error_y=dict(type="data", array=stds, thickness=1.2, width=4),
             mode="lines+markers",
             name=MODE_LABELS[m],
             line=dict(color=MODE_COLORS[m], width=2.2),
             marker=dict(size=8, line=dict(color="white", width=1)),
             legendgroup=m, showlegend=True,
-            hovertemplate=f"<b>{MODE_LABELS[m]}</b><br>{sweep.label}: %{{x}} {sweep.unit}<br>Rate: %{{y:.2f}}%<extra></extra>",
+            hovertemplate=f"<b>{MODE_LABELS[m]}</b><br>{sweep.label}: %{{x}} {sweep.unit}<br>Rate: %{{y:.2f}}% (±SEM)<extra></extra>",
         ), row=1, col=1)
 
     # ---- Panel 2: reduction by layer ----
@@ -513,24 +545,40 @@ def fig_sweep_overview(sweep: SweepData) -> go.Figure:
         ), row=2, col=1)
     fig.update_yaxes(range=[0, 105], row=2, col=1)
 
-    # ---- Panel 4: in-range latency ----
+    # ---- Panel 4: in-range latency with shaded ±1 SEM bands ----
     for m in modes:
         if m == "control":
             continue
-        means, stds = [], []
+        means, sems = [], []
         for v in values:
             sub = df[(df["mode"] == m) & (df[sweep.sweep_param] == v)]
             lat = sub.loc[sub["in_range_latency_s"] > 0, "in_range_latency_s"]
-            means.append(float(lat.mean()) if not lat.empty else None)
-            stds.append(float(lat.std(ddof=1)) if len(lat) > 1 else 0.0)
+            if not lat.empty and len(lat) > 1:
+                means.append(float(lat.mean()))
+                sems.append(float(lat.std(ddof=1)) / np.sqrt(len(lat)))
+            else:
+                means.append(float(lat.mean()) if not lat.empty else None)
+                sems.append(0.0)
+        upper = [m_ + s_ for m_, s_ in zip(means, sems)]
+        lower = [max(0.0, m_ - s_) for m_, s_ in zip(means, sems)]
+        fig.add_trace(go.Scatter(
+            x=values, y=upper, mode="lines",
+            line=dict(width=0, color=MODE_COLORS[m]),
+            showlegend=False, hoverinfo="skip", legendgroup=m,
+        ), row=2, col=2)
+        fig.add_trace(go.Scatter(
+            x=values, y=lower, mode="lines",
+            line=dict(width=0, color=MODE_COLORS[m]),
+            fill="tonexty", fillcolor=MODE_FILL_RGBA[m],
+            showlegend=False, hoverinfo="skip", legendgroup=m,
+        ), row=2, col=2)
         fig.add_trace(go.Scatter(
             x=values, y=means,
-            error_y=dict(type="data", array=stds, thickness=1.2, width=4),
             mode="lines+markers", name=MODE_LABELS[m],
             line=dict(color=MODE_COLORS[m], width=2.2),
             marker=dict(size=8, line=dict(color="white", width=1)),
             legendgroup=m, showlegend=False,
-            hovertemplate=f"<b>{MODE_LABELS[m]}</b><br>{sweep.label}: %{{x}} {sweep.unit}<br>Latency: %{{y:.3f}} s<extra></extra>",
+            hovertemplate=f"<b>{MODE_LABELS[m]}</b><br>{sweep.label}: %{{x}} {sweep.unit}<br>Latency: %{{y:.3f}} s (±SEM)<extra></extra>",
         ), row=2, col=2)
 
     # Axis labels
@@ -932,7 +980,7 @@ def build_index_html(
     if headline is not None:
         df = headline.df
         stats = per_mode_stats(df)
-        pairs = pairwise_tests(df, "collisions")
+        pairs = pairwise_tests(df, "col_rate")
         total_trials += len(df)
 
         if not stats:
@@ -972,8 +1020,9 @@ def build_index_html(
     <h3>Per-mode statistics</h3>
     {render_headline_table(stats)}
 
-    <h3>Pairwise comparisons (Welch's t-test on collisions)</h3>
+    <h3>Pairwise comparisons (Welch's t-test on collision rate per road entry)</h3>
     {render_pairwise_table(pairs)}
+    <p class="note" style="font-size:0.85rem;color:#5F5E5A;margin-top:0.5em;">The collision rate per road entry is the headline metric: it normalises for the very different number of road-crossing events each mode produces. Absolute collision counts are similar across modes because the sensor-active modes nearly double road-crossing throughput while halving per-crossing risk &mdash; a dual mechanism documented in the table above.</p>
   </div>
 
   <div class="plot-wrap">
@@ -1009,7 +1058,7 @@ def build_index_html(
 
   <div class="plot-wrap">
     {render_fig(fig, f"fig-sweep-{sweep.slug}")}
-    <p class="plot-caption">Figure {i+1}. Sweep of <code>{sweep.sweep_param}</code> across {len(table['value'].unique())} values, {per_value_trials} trials per (mode × value). Top-left: collision rate per mode with ± 1 SD error bars. Top-right: reduction percentages by mitigation layer.</p>
+    <p class="plot-caption">Figure {i+1}. Sweep of <code>{sweep.sweep_param}</code> across {len(table['value'].unique())} values, {per_value_trials} trials per (mode × value). Top-left: collision rate per mode with shaded ±1 SEM bands. Top-right: reduction percentages by mitigation layer.</p>
   </div>
 </section>""")
 
@@ -1036,8 +1085,13 @@ def build_index_html(
     <h3>Vehicle dynamics</h3>
     <p>Treiber–Hennecke–Helbing Intelligent Driver Model (IDM) with desired gap <code>s₀</code> = 5 m, time headway <code>T</code> = 1.5 s, comfortable acceleration <code>a</code> = 2.5 m/s², comfortable deceleration <code>b</code> = 4.0 m/s², emergency braking 9.0 m/s². Driver reaction delay 1.5 s.</p>
 
-    <h3>Animal behavior</h3>
-    <p>Six-state Markov model: <code>Foraging → Approaching → Hesitating → {{Crossing | Frozen | Fleeing}} → Gone</code>. Behavioral transitions calibrated against field studies: <code>p</code>(freeze | vehicle present) = 0.10, <code>p</code>(flee | vehicle) = 0.20, <code>p</code>(cross | clear) = 0.80, <code>p</code>(freeze during cross | vehicle braking) base 0.15. Animals arriving in a slow-vehicle environment cross more often but freeze less.</p>
+    <h3>Animal behaviour</h3>
+    <p>Six-state Markov model: <code>Foraging → Approaching → Hesitating → {{Crossing | Frozen | Fleeing}} → Gone</code>. Behavioural transitions at the road edge are gated by vehicle threat. Let θ = min(1, v<sub>vehicle</sub>/v<sub>cruise</sub>) be the speed-derived threat factor on a [0, 1] scale. Two branches:</p>
+    <ul>
+      <li><strong>Clear branch</strong> (no vehicle within 80 m, or θ ≤ 0.3): <code>p(cross) = 0.80</code>, <code>p(flee) = 0.20</code>.</li>
+      <li><strong>Threat branch</strong> (vehicle within 80 m AND θ &gt; 0.3): <code>p(frozen) = 0.10·θ</code>, <code>p(flee) = 0.30 + 0.20·θ</code>, <code>p(cross) = 0.70 − 0.30·θ</code>.</li>
+    </ul>
+    <p>Mid-crossing freeze (animal already on the road): rate <code>p(freeze) = 0.15·θ·Δt</code> per time step when a vehicle approaches within 40 m. The activation threshold θ &gt; 0.3 is calibrated against the caution-speed setpoint of 30 km/h: a DMS-alerted vehicle decelerates below this threshold and is no longer perceived as a threat, redirecting probability mass from the threat branch (freeze, flee) back toward the clear-branch crossing outcome. This branch-redirection is the principal behavioural mechanism by which driver alerts reduce collisions.</p>
 
     <h3>Three operating modes</h3>
     <ul>
@@ -1047,7 +1101,7 @@ def build_index_html(
     </ul>
 
     <h3>Statistical analysis</h3>
-    <p>All p-values from two-sided Welch's t-tests on per-trial collision counts. Significance markers: <span class="sig-3">***</span> p &lt; 0.001, <span class="sig-2">**</span> p &lt; 0.01, <span class="sig-1">*</span> p &lt; 0.05, <span class="sig-ns">n.s.</span> otherwise. Error bars and ± uncertainties throughout are one sample standard deviation (Bessel-corrected).</p>
+    <p>All p-values from two-sided Welch's t-tests on per-trial outcomes. Significance markers: <span class="sig-3">***</span> p &lt; 0.001, <span class="sig-2">**</span> p &lt; 0.01, <span class="sig-1">*</span> p &lt; 0.05, <span class="sig-ns">n.s.</span> otherwise. The headline result is the collision rate per road entry, which normalises for differing crossing throughput between modes; the absolute collision count differs by mode mainly through the throughput-vs-rate trade-off discussed in the Headline section. Sweep figures use shaded ±1 SEM bands (SD/√n) around the per-point mean, showing confidence in the mean estimate at each sweep value; trial-level variability is shown explicitly in the headline box plots.</p>
   </div>
 </section>"""
 
@@ -1067,11 +1121,21 @@ python -m pip install pandas plotly scipy numpy
 python analyze_wvc.py --input data --output docs</pre>
 
     <h3>Reproducing the raw data</h3>
-    <p>The simulator <code>wvc_simulator.py</code> is fully self-contained and uses only standard scientific Python. Each dataset on this page can be regenerated:</p>
-    <pre>python wvc_simulator.py --trials 20 --hours 4 --plot                # headline
-python wvc_simulator.py --sweep spacing --trials 15 --hours 2       # spacing sweep
-python wvc_simulator.py --sweep size --trials 15 --hours 2          # size sweep
-python wvc_simulator.py --sweep detection_rate --trials 15 --hours 2 # sensitivity sweep</pre>
+    <p>The simulator <code>wvc_simulator.py</code> is fully self-contained and uses only standard scientific Python. To regenerate every CSV on this page in a single run:</p>
+    <pre>python regenerate_all_data.py            # all sweeps (~30&ndash;60 min)
+python regenerate_all_data.py --skip-sweeps   # headline only (~5 min)</pre>
+
+    <h3>Print-quality static figures</h3>
+    <p>For the print manuscript, an accompanying script <code>generate_figures.py</code> renders four publication-grade PNGs (300 DPI, seaborn) from the same CSVs, with shaded ±1 SEM uncertainty bands:</p>
+    <ul>
+      <li><a href="figure_2_headline.png"><code>figure_2_headline.png</code></a> &mdash; headline three-mode comparison</li>
+      <li><a href="figure_3_spacing.png"><code>figure_3_spacing.png</code></a> &mdash; radar spacing sweep</li>
+      <li><a href="figure_4_size.png"><code>figure_4_size.png</code></a> &mdash; animal size sweep</li>
+      <li><a href="figure_5_kappa.png"><code>figure_5_kappa.png</code></a> &mdash; baseline sensor sensitivity sweep</li>
+    </ul>
+    <pre>python generate_figures.py               # all four
+python generate_figures.py --only 3 4    # only specific figures
+python generate_figures.py --dpi 600     # higher resolution</pre>
 
     <h3>Citation</h3>
     <p>If you use these results, please cite the accompanying paper:</p>
@@ -1094,27 +1158,11 @@ python wvc_simulator.py --sweep detection_rate --trials 15 --hours 2 # sensitivi
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Interactive supplementary data page for {html.escape(paper_title)}. Headline three-mode Monte Carlo comparison, three sensitivity sweeps (radar spacing, animal size, sensor sensitivity), full reproducibility pipeline.">
-    <meta name="author" content="{html.escape(authors)}">
-    <meta name="keywords" content="wildlife-vehicle collisions, animal detection systems, radar, magnetometer, LoRa, Monte Carlo simulation, road ecology, sustainable transportation">
-
-    <link rel="canonical" href="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="GNACODE - WVC Sensor Network Data Page">
-    <meta property="og:title" content="{html.escape(paper_title)}">
-    <meta property="og:description" content="Interactive supplementary data page. Headline 57.0% collision reduction (p < 0.0001) across 60 Monte Carlo trials, plus three sensitivity sweeps. {html.escape(authors)} ({_dt.datetime.now().year}), submitted to {html.escape(journal)}.">
-    <meta property="og:url" content="https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/">
-    <meta property="og:locale" content="en_CA">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{html.escape(paper_title)}">
-    <meta name="twitter:description" content="Combined radar–magnetometer sensor network for wildlife–vehicle collision prevention. 57.0% reduction across 60 Monte Carlo trials. Interactive data + open code.">
-
+    <meta name="description" content="Interactive data page for the WVC sensor-network paper.">
     <title>{html.escape(paper_title)} — Data Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     {plotly_script_tag}
     <style>{INDEX_CSS}</style>
 </head>
@@ -1193,7 +1241,7 @@ def main():
     parser.add_argument("--output", "-o", type=Path, default=Path("./docs"),
                         help="Output directory for the data page (default: ./docs)")
     parser.add_argument("--paper-title", type=str,
-                        default="Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis",
+                        default="Multimodal Radar–Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention",
                         help="Paper title shown in the page header")
     parser.add_argument("--authors", type=str,
                         default="Lars Thomsen, Sergii Makovetskyi",

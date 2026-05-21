@@ -34,4 +34,4 @@ backups/
 data/snapshots/
 
 # Large NumPy result files — Zenodo only
-*.npz
+*.npz.regeneration_checkpoint.json 
