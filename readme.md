@@ -2,7 +2,7 @@
 
 [![Interactive data page](https://img.shields.io/badge/Interactive-Data%20Page-2563eb?style=flat-square)](https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20313719-blue?style=flat-square)](https://doi.org/10.5281/zenodo.20313719)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20320115-blue?style=flat-square)](https://doi.org/10.5281/zenodo.20320115)
 )
 
 Supplementary code, data, and interactive analysis for:
