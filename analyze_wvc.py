@@ -1241,7 +1241,7 @@ def main():
     parser.add_argument("--output", "-o", type=Path, default=Path("./docs"),
                         help="Output directory for the data page (default: ./docs)")
     parser.add_argument("--paper-title", type=str,
-                        default="Multimodal Radar–Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention",
+                        default="Combined Radar and Magnetometer Sensor Network with LoRa-Mediated Awareness for Wildlife–Vehicle Collision Prevention: A Monte Carlo Analysis",
                         help="Paper title shown in the page header")
     parser.add_argument("--authors", type=str,
                         default="Lars Thomsen, Sergii Makovetskyi",
