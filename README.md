@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Interactive Data Page](https://img.shields.io/badge/Results-Interactive_Data_Page-orange)](https://gnacode.github.io/WILDLIFE-VEHICLE-COLLISION-MONTECARLO/)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
-[![DOI](https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.[CONCEPT_ID]-1682D4.svg)](https://doi.org/10.5281/zenodo.[CONCEPT_ID])
+[![DOI](https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.20651892-1682D4.svg)](https://doi.org/10.5281/zenodo.20651892)
 
 Monte Carlo simulation framework evaluating a **combined radar and magnetometer sensor network with LoRa-mediated awareness propagation** for mitigating wildlife-vehicle collisions (WVCs) on rural road corridors, as a model-based proof of concept.
 
@@ -179,7 +179,7 @@ The radar and IoT-mesh signal-processing chains underlying the sensor nodes have
 }
 ```
 
-Please also cite the archived software release (Zenodo, v2.0.0): concept DOI `10.5281/zenodo.[CONCEPT_ID]` (always resolves to the latest version) or the version DOI `10.5281/zenodo.[NEW_VERSION_ID]` for this specific release.
+Please also cite the archived software release: **Zenodo v2.0.0, DOI `10.5281/zenodo.20651892`** (the version DOI for this specific release). To cite all versions, use the concept DOI shown in the *Cite all versions* box on the [Zenodo record](https://doi.org/10.5281/zenodo.20651892).
 
 ## Related Work
 
