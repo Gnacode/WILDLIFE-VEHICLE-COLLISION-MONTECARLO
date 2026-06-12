@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+cruise_speed,cruise_speed_kmh,latency,1.72507e-29,3,1,0.0170972,ols

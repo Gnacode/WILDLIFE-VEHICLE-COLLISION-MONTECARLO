@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+hesitate_dwell,hesitate_dwell_max,latency,1.65257e-29,4,1,0.0195646,ols

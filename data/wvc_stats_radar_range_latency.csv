@@ -1,0 +1,6 @@
+radar_range,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+8,in_range_latency_s,detection_vs_aware,15,15,0.291929,0.291929,0,28,1,none,,,,,,,0,-8.82012,8.37302,0,-33.2968,25.9284
+10,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+12,in_range_latency_s,detection_vs_aware,15,15,0.259067,0.259067,0,28,1,none,,,,,,,0,-9.92256,10.0215,0,-48.7718,32.4182
+15,in_range_latency_s,detection_vs_aware,15,15,0.183199,0.183199,0,28,1,none,,,,,,,0,-4.50331,4.53547,0,-27.9874,21.7951
+20,in_range_latency_s,detection_vs_aware,15,15,0.091556,0.091556,0,28,1,none,,,,,,,0,-2.74999,2.82073,0,-36.7846,26.6129

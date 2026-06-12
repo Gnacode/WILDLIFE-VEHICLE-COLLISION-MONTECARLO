@@ -1,0 +1,6 @@
+vehicles_per_dir,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+1,in_range_latency_s,detection_vs_aware,15,15,0.260488,0.260488,0,28,1,none,,,,,,,0,-5.10226,4.99206,0,-21.3725,17.8119
+2,in_range_latency_s,detection_vs_aware,15,15,0.310036,0.310036,0,28,1,none,,,,,,,0,-6.77431,6.87778,0,-24.7921,19.7506
+4,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+8,in_range_latency_s,detection_vs_aware,15,15,0.294516,0.294516,0,28,1,none,,,,,,,0,-10.2995,10.1667,0,-42.0406,30.0913
+16,in_range_latency_s,detection_vs_aware,15,15,0.261198,0.261198,0,28,1,none,,,,,,,0,-11.6457,11.7671,0,-57.2017,36.6912

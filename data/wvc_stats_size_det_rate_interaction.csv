@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+size,size_scale,det_rate,0,6,1,0.558689,poisson

@@ -1,0 +1,7 @@
+animal_rate_per_hr,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+5,in_range_latency_s,detection_vs_aware,15,15,0.239333,0.239333,0,28,1,none,,,,,,,0,-12.4456,12.3111,0,-72.3532,42.2956
+15,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+30,in_range_latency_s,detection_vs_aware,15,15,0.307102,0.307102,0,28,1,none,,,,,,,0,-6.97472,7.03559,0,-26.284,20.5949
+60,in_range_latency_s,detection_vs_aware,15,15,0.294104,0.294104,0,28,1,none,,,,,,,0,-4.21351,4.10826,0,-15.0471,13.3226
+120,in_range_latency_s,detection_vs_aware,15,15,0.287767,0.494398,-5.38017,17.6014,4.43131e-05,none,,,,,,,20.6631,13.834,28.4218,-71.805,-101.7,-46.2687
+240,in_range_latency_s,detection_vs_aware,15,15,0.295447,0.38786,-3.45156,16.9552,0.00305754,none,,,,,,,9.24134,4.28992,14.5089,-31.2792,-49.9993,-14.2599

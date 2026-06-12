@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+driver_reaction,driver_reaction_s,col_rate,4.93411,8,0.764594,0.939786,poisson

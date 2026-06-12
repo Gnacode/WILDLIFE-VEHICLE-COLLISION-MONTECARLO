@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+caution_speed,caution_speed_kmh,col_rate,0.308536,8,0.999979,0.848599,poisson

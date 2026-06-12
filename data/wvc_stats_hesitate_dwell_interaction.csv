@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+hesitate_dwell,hesitate_dwell_max,col_rate,3.57184,8,0.893543,0.983755,poisson

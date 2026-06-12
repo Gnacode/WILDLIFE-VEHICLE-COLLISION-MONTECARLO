@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+animal_density,animal_rate_per_hr,latency,21.4385,5,0.00107199,0.0127103,ols

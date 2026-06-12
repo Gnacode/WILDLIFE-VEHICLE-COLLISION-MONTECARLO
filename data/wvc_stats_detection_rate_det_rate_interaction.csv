@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+detection_rate,detection_rate_per_sec,det_rate,1.13687e-13,5,1,0.628766,poisson

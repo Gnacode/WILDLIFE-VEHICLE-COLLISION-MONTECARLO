@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+awareness_tau,awareness_persist_s,col_rate,0.652078,6,0.995467,0.934834,poisson

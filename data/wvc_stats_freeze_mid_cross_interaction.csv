@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+freeze_mid_cross,p_freeze_during_cross_base,col_rate,5.68434e-14,8,1,0.983396,poisson

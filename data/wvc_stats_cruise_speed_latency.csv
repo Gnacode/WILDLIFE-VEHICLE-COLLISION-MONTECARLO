@@ -1,0 +1,5 @@
+cruise_speed_kmh,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+60,in_range_latency_s,detection_vs_aware,15,15,0.323751,0.323751,0,28,1,none,,,,,,,0,-11.979,11.9624,0,-43.8423,30.5514
+80,in_range_latency_s,detection_vs_aware,15,15,0.309325,0.309325,0,28,1,none,,,,,,,0,-7.56357,7.65091,0,-28.3172,21.674
+100,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+120,in_range_latency_s,detection_vs_aware,15,15,0.252579,0.252579,0,28,1,none,,,,,,,0,-7.4604,7.35246,0,-34.8718,25.8004

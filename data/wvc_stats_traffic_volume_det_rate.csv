@@ -1,0 +1,6 @@
+vehicles_per_dir,metric,comparison,n_ref,n_trt,mean_ref_pct,mean_trt_pct,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+1,det_rate,detection_vs_aware,15,15,54.023,54.023,0,28,1,poisson,0.726444,1,0.834589,1.19819,-1.50432e-16,1,0,-8.04598,7.81609,0,-16.055,14.1027
+2,det_rate,detection_vs_aware,15,15,29.4253,29.4253,0,28,1,poisson,0.633929,1,0.782705,1.27762,1.33227e-15,1,0,-5.28736,5.51724,0,-20.6904,16.7883
+4,det_rate,detection_vs_aware,15,15,19.0805,19.0805,0,28,1,poisson,0.409639,1,0.737676,1.35561,-1.43042e-15,1,0,-3.67816,3.67816,0,-20.8333,17.0455
+8,det_rate,detection_vs_aware,15,15,21.8391,21.8391,0,28,1,poisson,0.759398,1,0.752476,1.32895,-1.91292e-15,1,0,-5.28736,5.28736,0,-27.5862,21.6981
+16,det_rate,detection_vs_aware,15,15,18.1609,18.1609,0,28,1,poisson,0.473779,1,0.732085,1.36596,-2.26773e-15,1,0,-3.67816,3.90805,0,-23.5294,18.6813

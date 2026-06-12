@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+awareness_tau,awareness_persist_s,latency,1.3417e-29,3,1,0.0217738,ols

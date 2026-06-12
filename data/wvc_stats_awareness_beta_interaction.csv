@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+awareness_beta,boost_factor,col_rate,1.13687e-13,10,1,0.983396,poisson

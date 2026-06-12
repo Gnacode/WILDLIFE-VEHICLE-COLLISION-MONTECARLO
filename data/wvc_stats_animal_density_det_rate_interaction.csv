@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+animal_density,animal_rate_per_hr,det_rate,90.0525,5,6.55099e-18,0.744448,poisson

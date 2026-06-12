@@ -1,0 +1,6 @@
+caution_speed_kmh,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+30,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+45,in_range_latency_s,detection_vs_aware,15,15,0.236778,0.236778,0,28,1,none,,,,,,,0,-5.30643,5.34135,0,-25.5428,20.1153
+60,in_range_latency_s,detection_vs_aware,15,15,0.236167,0.236167,0,28,1,none,,,,,,,0,-9.82222,9.97236,0,-51.7687,33.7035
+80,in_range_latency_s,detection_vs_aware,15,15,0.291865,0.291865,0,28,1,none,,,,,,,0,-11.1629,11.2699,0,-48.1387,31.8883
+100,in_range_latency_s,detection_vs_aware,15,15,0.287765,0.287765,0,28,1,none,,,,,,,0,-7.82545,7.79393,0,-31.2174,23.9445

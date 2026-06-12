@@ -1,0 +1,8 @@
+radar_spacing,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+5,in_range_latency_s,detection_vs_aware,15,15,0.290601,0.290601,0,28,1,none,,,,,,,0,-13.3636,13.3595,0,-57.6173,36.9311
+10,in_range_latency_s,detection_vs_aware,15,15,0.304222,0.304222,0,28,1,none,,,,,,,0,-10.9503,11.0833,0,-43.768,30.0817
+15,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+20,in_range_latency_s,detection_vs_aware,15,15,0.304563,0.304563,0,28,1,none,,,,,,,0,-11.1271,10.9885,0,-43.9247,30.7302
+25,in_range_latency_s,detection_vs_aware,15,15,0.293603,0.293603,0,28,1,none,,,,,,,0,-16.1941,16.1778,0,-74.4939,41.997
+30,in_range_latency_s,detection_vs_aware,15,15,0.349778,0.349778,0,28,1,none,,,,,,,0,-18.6789,19.2339,0,-74.81,42.5162
+40,in_range_latency_s,detection_vs_aware,15,15,0.195444,0.195444,0,28,1,none,,,,,,,0,-9.87806,9.50083,0,-65.1283,40.2825

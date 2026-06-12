@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+radar_range,radar_range,col_rate,2.15746,8,0.9758,0.930123,poisson

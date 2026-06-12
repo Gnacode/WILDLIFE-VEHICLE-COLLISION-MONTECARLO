@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+spacing,radar_spacing,det_rate,1.13687e-13,6,1,0.695185,poisson

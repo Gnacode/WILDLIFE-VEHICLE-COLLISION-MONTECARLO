@@ -1,0 +1,6 @@
+hesitate_dwell_max,metric,comparison,n_ref,n_trt,mean_ref_value,mean_trt_value,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+1,in_range_latency_s,detection_vs_aware,15,15,0.29669,0.29669,0,28,1,none,,,,,,,0,-10.8568,10.8319,0,-44.877,30.7604
+2,in_range_latency_s,detection_vs_aware,15,15,0.276444,0.276444,0,28,1,none,,,,,,,0,-9.3146,9.49222,0,-41.8375,29.2798
+3,in_range_latency_s,detection_vs_aware,15,15,0.303071,0.303071,0,28,1,none,,,,,,,0,-8.08815,8.04786,0,-30.7632,23.8151
+5,in_range_latency_s,detection_vs_aware,15,15,0.31373,0.31373,0,28,1,none,,,,,,,0,-10.2082,10.1573,0,-38.7092,27.8578
+8,in_range_latency_s,detection_vs_aware,15,15,0.261968,0.261968,0,28,1,none,,,,,,,0,-9.68889,9.40341,0,-42.8648,30.6042

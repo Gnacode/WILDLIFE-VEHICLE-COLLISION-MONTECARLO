@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+cruise_speed,cruise_speed_kmh,col_rate,1.28758,6,0.972338,1.01019,poisson

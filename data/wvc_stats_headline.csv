@@ -1,0 +1,4 @@
+metric,comparison,n_ref,n_trt,mean_ref_pct,mean_trt_pct,welch_t,welch_df,welch_p,glm_family,glm_dispersion,rate_ratio,rr_ci_low,rr_ci_high,glm_z,glm_p,bootstrap_diff_pp,bootstrap_ci_low_pp,bootstrap_ci_high_pp,reduction_pct,reduction_ci_low_pct,reduction_ci_high_pct
+col_rate,control_vs_detection,20,20,13.2241,7.8932,1.60493,31.4835,0.118495,poisson,0.992828,0.576776,0.323422,1.0286,-1.86447,0.0622553,-5.33094,-11.7475,0.936713,40.3122,-10.6208,67.941
+col_rate,control_vs_aware,20,20,13.2241,7.8932,1.60493,31.4835,0.118495,poisson,0.992828,0.576776,0.323422,1.0286,-1.86447,0.0622553,-5.33094,-11.7475,0.936713,40.3122,-10.6208,67.941
+col_rate,detection_vs_aware,20,20,7.8932,7.8932,0,38,1,poisson,0.788509,1,0.529456,1.88873,1.79652e-15,1,0,-4.51482,4.65721,0,-85.4128,44.843

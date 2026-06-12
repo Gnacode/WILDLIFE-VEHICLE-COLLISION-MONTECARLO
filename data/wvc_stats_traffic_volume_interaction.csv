@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+traffic_volume,vehicles_per_dir,col_rate,32.4621,8,7.69595e-05,1.00749,poisson

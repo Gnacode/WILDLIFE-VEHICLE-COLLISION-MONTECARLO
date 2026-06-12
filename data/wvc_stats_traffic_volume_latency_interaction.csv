@@ -1,0 +1,2 @@
+sweep_label,sweep_col,metric,interaction_chi2,interaction_df,interaction_p,dispersion,family
+traffic_volume,vehicles_per_dir,latency,1.84349e-29,4,1,0.0159347,ols
