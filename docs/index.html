@@ -289,7 +289,7 @@ figure.fig img { width: 100%; height: auto; border: 1px solid var(--rule); borde
   <figure class="fig">
     <img src="figure_3_headline.png" alt="Headline three-mode comparison"
          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-    <div class="fig-pending" style="display:none;">figure_3_headline.png — regenerate from data via generate_figures.py and place in /docs</div>
+    <div class="fig-pending" style="display:none;">figure_3_headline.png — render via "python wvc.py figures" and copy into /docs</div>
     <figcaption class="plot-caption">Figure 1. Four-panel three-mode Monte Carlo comparison (collision rate per road entry, detection rate, in-range latency, per-trial distributions). Detection and Aware overlap at the default density; the awareness boost is implementationally active but inert at λτ = 0.125.</figcaption>
   </figure>
   <figure class="fig">
@@ -545,16 +545,33 @@ figure.fig img { width: 100%; height: auto; border: 1px solid var(--rule); borde
     </ul>
     <p class="note" style="font-size:0.85rem;color:var(--muted);">The magnetometer vehicle-sensing ablation (§05) is a separate run; its CSVs are not part of this <code>data/</code> sweep set. To offer one-click downloads from this page instead of linking to the repository, copy <code>data/</code> into <code>docs/data/</code> and point the links at <code>data/&hellip;</code>.</p>
 
-    <h3>Reproducing the figures and page</h3>
-    <pre>git clone &lt;this-repo&gt;
-cd &lt;this-repo&gt;
-python -m pip install pandas plotly scipy numpy seaborn
-python analyze_wvc.py --input data --output docs   # rebuilds this page
-python generate_figures.py --input data --output docs --dpi 300   # static PNGs</pre>
+    <h3>Requirements</h3>
+    <pre>git clone https://github.com/Gnacode/WILDLIFE-VEHICLE-COLLISION-MONTECARLO.git
+cd WILDLIFE-VEHICLE-COLLISION-MONTECARLO
+python -m pip install numpy pandas scipy statsmodels matplotlib seaborn</pre>
 
-    <h3>Reproducing the raw data</h3>
-    <pre>python generate_data.py            # all sweeps (~30-60 min)
-python generate_data.py --skip-sweeps   # headline only (~5 min)</pre>
+    <h3>Full reproduction (data &rarr; stats &rarr; figures)</h3>
+    <p>The whole tool is the single script <code>wvc.py</code>, driven by subcommands and a global
+    <code>--workdir</code> (the folder it reads CSVs from and writes outputs to). One command runs the
+    entire pipeline:</p>
+    <pre>python wvc.py --workdir data pipeline --jobs 8</pre>
+
+    <h3>Or run the stages individually</h3>
+    <pre>python wvc.py --workdir data data --jobs 8        # raw per-trial CSVs (~30-60 min)
+python wvc.py --workdir data data --skip-sweeps   # headline experiment only (~5 min)
+python wvc.py --workdir data stats                # wvc_stats_*.csv (Welch, Poisson/NB GLM, bootstrap, interaction)
+python wvc.py --workdir data figures --dpi 300    # publication PNGs (figures 3-6, S1-S11)
+python wvc.py --workdir data ablation             # magnetometer vehicle-model ablation (sec 05)</pre>
+    <p class="note" style="font-size:0.85rem;color:var(--muted);">The <code>figures</code> stage writes the PNGs
+    (<code>figure_3_headline.png</code> &hellip; <code>figure_S11_radar_range.png</code>) into the working directory;
+    copy them into <code>docs/</code> to publish, since this page references them by relative path.</p>
+
+    <h3>Standalone statistics (as referenced in the manuscript)</h3>
+    <pre>python compute_stats.py --csv-dir data</pre>
+
+    <h3>Interactive local console (optional)</h3>
+    <p>A browser-based control panel for running <code>wvc.py</code> locally:</p>
+    <pre>python wvc_web.py --workdir data        # serves http://127.0.0.1:8753</pre>
 
     <h3>Appendix A and supplementary materials</h3>
     <p>Appendix A (Extended Methods and Results) contains the full coverage-geometry and FID-distribution derivations, the statistical-analysis battery, per-sweep robustness narratives, Supplementary Tables S1–S5, and Supplementary Figures S1–S12.</p>
